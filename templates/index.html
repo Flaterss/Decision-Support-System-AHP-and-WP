@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conction</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="static/style.css" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <h1>Conction.</h1>
+      <p>
+        Conction adalah sebuah sistem yang dirancang untuk memproses data
+        berformat (.xls/.xlsx) guna melakukan pengolahan dan perankingan secara
+        efisien. Sistem ini dikembangkan untuk mendukung proses perankingan
+        mahasiswa yang akan dikelompokkan ke dalam konsentrasi studi di
+        lingkungan Teknik Komputer, JTIK, Universitas Negeri Makassar. Pada
+        Jurusan Teknik Komputer, tersedia tiga pilihan konsentrasi, yaitu
+        Artificial Intelligence, Network and Security, serta Embedded System.
+        Conction hadir sebagai solusi inovatif untuk menyederhanakan proses
+        penentuan konsentrasi belajar mahasiswa secara akurat dan terstruktur.
+      </p>
+    </div>
+    <div class="content">
+      <h2>SISTEM PENGAMBILAN KEPUTUSAN KONSENTRASI TEKNIK KOMPUTER UNM</h2>
+      <form action="/process" method="POST" enctype="multipart/form-data">
+        <div class="form-section">
+          <label for="fileUpload">Upload File (.xlsx)</label>
+          <input
+            type="file"
+            id="fileUpload"
+            name="file"
+            accept=".xlsx, .xls"
+            required
+          />
+
+          <h3>Pilih Jenis Konsentrasi dan Masukkan Jumlah Kuota</h3>
+
+          <label for="kuota_ai">Jenis Konsentrasi:</label>
+          <div style="display: flex; align-items: center; gap: 20px">
+            <!-- Pilihan Konsentrasi -->
+            <div class="konsentrasi-section">
+              <label class="radio-container">
+                <input
+                  type="radio"
+                  name="konsentrasi"
+                  id="konsentrasi_1"
+                  value="1"
+                />
+                <span>Artificial Intelligence</span>
+              </label>
+              <label class="radio-container">
+                <input
+                  type="radio"
+                  name="konsentrasi"
+                  id="konsentrasi_2"
+                  value="2"
+                />
+                <span>Network and Security</span>
+              </label>
+              <label class="radio-container">
+                <input
+                  type="radio"
+                  name="konsentrasi"
+                  id="konsentrasi_3"
+                  value="3"
+                />
+                <span>Embedded System</span>
+              </label>
+            </div>
+          </div>
+          <!-- Input Kuota -->
+          <div class="kuota-section">
+            <label for="kuota_ai">Kuota:</label>
+            <input type="number" name="kuota_ai" id="kuota_ai" required />
+          </div>
+
+          <h3>Masukkan Peringkat Prioritas Nilai Mata Kuliah</h3>
+          <label for="kuota_ai"
+            >Rentang 1 ~ 9 (1 = Tertinggi, 9 = Terendah)</label
+          >
+          <div class="form-grid">
+            <input
+              type="hidden"
+              name="nama_matkul_1"
+              value="Nilai Mata Kuliah Jaringan Komputer"
+            />
+            <input
+              type="number"
+              name="prioritas_1"
+              placeholder="Jaringan Komputer"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_2"
+              value="Nilai Mata Kuliah Keamanan Informasi"
+            />
+            <input
+              type="number"
+              name="prioritas_2"
+              placeholder="Keamanan Informasi"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_3"
+              value="Nilai Mata Kuliah Arsitektur dan Organisasi Komputer"
+            />
+            <input
+              type="number"
+              name="prioritas_3"
+              placeholder="Arsitektur dan Organisasi Komputer"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_4"
+              value="Nilai Mata Kuliah Rangkaian Elektronika"
+            />
+            <input
+              type="number"
+              name="prioritas_4"
+              placeholder="Rangkaian Elektronika"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_5"
+              value="Nilai Mata Kuliah Sistem Digital"
+            />
+            <input
+              type="number"
+              name="prioritas_5"
+              placeholder="Sistem Digital"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_6"
+              value="Nilai Mata Kuliah Struktur Data"
+            />
+            <input
+              type="number"
+              name="prioritas_6"
+              placeholder="Struktur Data"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_7"
+              value="Nilai Mata Kuliah Algoritma dan pemrograman dasar"
+            />
+            <input
+              type="number"
+              name="prioritas_7"
+              placeholder="AIProDas"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_8"
+              value="Nilai Mata Kuliah Pemrograman Lanjut"
+            />
+            <input
+              type="number"
+              name="prioritas_8"
+              placeholder="Pemrograman Lanjut"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+            <input
+              type="hidden"
+              name="nama_matkul_9"
+              value="Nilai Mata Kuliah Statistik dan Probabilitas"
+            />
+            <input
+              type="number"
+              name="prioritas_9"
+              placeholder="Statistik dan Probabilitas"
+              min="1"
+              max="9"
+              required
+              oninput="validateInput(this)"
+            />
+          </div>
+
+          <script>
+            // Fungsi untuk memvalidasi input pada Nilai Mata Kuliah
+            function validateInput(input) {
+              const values = Array.from(
+                document.querySelectorAll("input[name^='prioritas_']")
+              ).map((input) => input.value);
+
+              const currentValue = input.value;
+
+              // Memastikan input hanya antara 1 hingga 9
+              if (currentValue < 1 || currentValue > 9) {
+                input.setCustomValidity("Angka harus antara 1 hingga 9");
+                input.reportValidity();
+                return;
+              } else {
+                input.setCustomValidity(""); // Reset validasi jika input valid
+              }
+
+              // Memeriksa jika angka sudah ada di grup nilai mata kuliah
+              const isDuplicate =
+                values.filter((value) => value === currentValue).length > 1;
+
+              if (isDuplicate) {
+                input.setCustomValidity("Angka tidak boleh sama");
+                input.reportValidity();
+              } else {
+                input.setCustomValidity(""); // Reset validasi jika tidak ada duplikasi
+              }
+            }
+
+            // Menambahkan event listener untuk setiap input yang ingin divalidasi
+            document
+              .querySelectorAll("input[name^='prioritas_']")
+              .forEach((input) => {
+                input.addEventListener("input", function () {
+                  validateMatkulInput(input);
+                });
+              });
+          </script>
+
+          <h3>Masukkan Peringkat Prioritas Nilai Pendukung</h3>
+          <label for="kuota_ai"
+            >Rentang 1 ~ 3 (1 = Tertinggi, 3 = Terendah)</label
+          >
+          <div class="form-grid">
+            <input type="hidden" name="nama_pendukung_1" value="Karya" />
+            <input
+              type="number"
+              name="prioritaspendukung_1"
+              placeholder="Karya"
+              min="1"
+              max="3"
+              required
+              oninput="validatePendukungInput(this)"
+            />
+
+            <input type="hidden" name="nama_pendukung_2" value="SMK/SMA/MA" />
+            <input
+              type="number"
+              name="prioritaspendukung_2"
+              placeholder="Asal Sekolah (SMK/SMA/MA)"
+              min="1"
+              max="3"
+              required
+              oninput="validatePendukungInput(this)"
+            />
+
+            <input type="hidden" name="nama_pendukung_3" value="Hobi" />
+            <input
+              type="number"
+              name="prioritaspendukung_3"
+              placeholder="Hobi"
+              min="1"
+              max="3"
+              required
+              oninput="validatePendukungInput(this)"
+            />
+          </div>
+
+          <script>
+            // Fungsi untuk memvalidasi input pada Nilai Pendukung
+            function validatePendukungInput(input) {
+              const values = Array.from(
+                document.querySelectorAll("input[name^='prioritaspendukung_']")
+              ).map((input) => input.value);
+
+              const currentValue = input.value;
+
+              // Memastikan input hanya antara 1 hingga 3
+              if (currentValue < 1 || currentValue > 3) {
+                input.setCustomValidity("Angka harus antara 1 hingga 3");
+                input.reportValidity();
+                return;
+              } else {
+                input.setCustomValidity(""); // Reset validasi jika input valid
+              }
+
+              // Memeriksa jika angka sudah ada di grup nilai pendukung
+              const isDuplicate =
+                values.filter((value) => value === currentValue).length > 1;
+
+              if (isDuplicate) {
+                input.setCustomValidity("Angka tidak boleh sama");
+                input.reportValidity();
+              } else {
+                input.setCustomValidity(""); // Reset validasi jika tidak ada duplikasi
+              }
+            }
+
+            // Menambahkan event listener untuk setiap input yang ingin divalidasi
+            document
+              .querySelectorAll("input[name^='prioritaspendukung_']")
+              .forEach((input) => {
+                input.addEventListener("input", function () {
+                  validatePendukungInput(input);
+                });
+              });
+          </script>
+
+          <div class="button-container">
+            <!-- Tombol PROSES -->
+            <button
+              type="submit"
+              class="process-button"
+              id="processButton"
+              onclick="handleProcessClick(event)"
+            >
+              PROSES
+            </button>
+
+            <!-- Tombol DOWNLOAD -->
+            <a
+              href="{{ file_url }}"
+              class="download-button"
+              id="downloadButton"
+              onclick="handleDownloadClick(event)"
+            >
+              DOWNLOAD
+            </a>
+          </div>
+
+          <script>
+            // Fungsi untuk mengaktifkan tombol DOWNLOAD setelah halaman selesai dimuat
+            function activateDownloadButton() {
+              const downloadButton = document.getElementById("downloadButton");
+              const resultBox = document.querySelector(".output-box");
+
+              // Cek apakah result tidak kosong
+              if (resultBox && resultBox.innerHTML.trim() !== "") {
+                downloadButton.classList.add("enabled");
+                downloadButton.style.cursor = "pointer";
+              } else {
+                downloadButton.classList.remove("enabled");
+                downloadButton.style.cursor = "not-allowed";
+              }
+            }
+
+            // Fungsi opsional untuk menangani klik tombol DOWNLOAD
+            function handleDownloadClick(event) {
+              const downloadButton = document.getElementById("downloadButton");
+              if (!downloadButton.classList.contains("enabled")) {
+                alert(
+                  "Tombol download belum aktif. Harap selesaikan proses terlebih dahulu!"
+                );
+                event.preventDefault(); // Mencegah tindakan default unduhan
+              }
+            }
+
+            // Pastikan tombol DOWNLOAD diperiksa setiap kali halaman dimuat ulang
+            document.addEventListener(
+              "DOMContentLoaded",
+              activateDownloadButton
+            );
+          </script>
+        </div>
+      </form>
+
+      <h3>Hasil Pemilihan Konsentrasi:</h3>
+      <div class="output-box">{{ result|safe }}</div>
+    </div>
+  </body>
+</html>

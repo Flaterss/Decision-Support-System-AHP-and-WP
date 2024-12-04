@@ -1,0 +1,365 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+.sidebar {
+  width: 20%;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+.sidebar h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.sidebar p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.content {
+  width: 80%;
+  padding: 20px;
+  background-color: #eeeeee;
+}
+.content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.form-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Container untuk tombol */
+.button-container {
+  display: flex;
+  align-items: center; /* Vertikal rata tengah */
+  justify-content: flex-start; /* Posisi tombol ke kiri */
+  gap: 10px; /* Jarak antara tombol */
+  margin-top: 10px;
+}
+
+/* Tombol Proses */
+.process-button {
+  flex: 1; /* Membuat tombol ini proporsional */
+  background-color: #4caf50; /* Hijau */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: background-color 0.3s ease; /* Efek transisi */
+}
+
+.process-button:hover {
+  background-color: #45a049; /* Hijau gelap saat hover */
+}
+
+/* Tombol Download */
+.download-button {
+  flex: 1; /* Membuat tombol ini proporsional */
+  background-color: #d3d3d3; /* Abu-abu untuk tombol nonaktif */
+  color: white;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  cursor: not-allowed; /* Indikasi tombol tidak aktif */
+  transition: background-color 0.3s ease; /* Efek transisi */
+}
+
+.download-button.enabled {
+  background-color: #007bff; /* Biru untuk tombol aktif */
+  cursor: pointer;
+}
+
+.download-button.enabled:hover {
+  background-color: #0056b3; /* Biru gelap saat hover */
+}
+
+
+.download-button {
+  flex: 1;
+  background-color: #d3d3d3;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  cursor: not-allowed;
+  transition: background-color 0.3s ease;
+}
+
+.download-button.enabled {
+  background-color: #007bff;
+  cursor: pointer;
+}
+
+.download-button.enabled:hover {
+  background-color: #0056b3;
+}
+
+
+.form-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.form-section input[type="file"] {
+  display: block;
+  margin-bottom: 20px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px; /* Menambahkan gap antar elemen */
+
+}
+.form-grid input[type="number"] {
+  width: 100%; /* Pastikan input memenuhi lebar kolom */
+  padding: 15px; /* Menambah ruang dalam input */
+  font-size: 16px; /* Memperbesar teks dalam input */
+  border: 2px solid #ccc; /* Membuat border lebih tegas */
+  border-radius: 5px; /* Menambahkan sudut yang lebih halus */
+  box-sizing: border-box; /* Pastikan padding tidak memengaruhi ukuran total */
+}
+
+.form-grid input[type="number"]:focus {
+  border-color: #007bff; /* Warna border saat fokus */
+  outline: none; /* Hilangkan garis luar bawaan browser */
+}
+.output-box {
+  width: 100%;
+  height: 100px;
+  margin-top: 20px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  overflow-y: scroll; /* Menambahkan scrollbar untuk output */
+}
+.form-section button {
+  display: block;
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.form-section button:hover {
+  background-color: #45a049;
+}
+
+/* Form Container */
+.form-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Konsentrasi Section */
+.konsentrasi-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px; /* Adjust the gap for horizontal spacing */
+}
+
+.konsentrasi-section label {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Kuota Section */
+.kuota-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.kuota-section label {
+  font-weight: bold;
+  color: #000;
+}
+
+.kuota-section input {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 100px;
+}
+
+/* Styling input[type="radio"] */
+.konsentrasi-section input[type="radio"] {
+  position: absolute; /* Memindahkan elemen ke luar tampilan */
+  opacity: 0; /* Membuat elemen tidak terlihat */
+  width: 0;
+  height: 0;
+}
+
+/* Styling kotak radio */
+.konsentrasi-section .radio-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 160px; /* Lebar minimum */
+  text-align: center;
+  flex-grow: 1;
+  position: relative;
+}
+
+/* Styling kotak saat dipilih */
+.konsentrasi-section input[type="radio"]:checked + span {
+  background-color: #444;
+  color: white;
+}
+
+.konsentrasi-section input[type="radio"]:checked + span:hover {
+  background-color: #888;
+}
+
+/* Styling label dalam radio-container */
+.konsentrasi-section span {
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: #e0e0e0;
+  color: #000;
+  font-size: 1rem;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Warna saat hover */
+.konsentrasi-section span:hover {
+  background-color: #c5c5c5;
+}
+
+
+/* Input Kuota */
+#kuota_ai {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #000;
+  border-radius: 4px;
+  width: 150px;
+}
+
+/* Label Kuota */
+#kuota_ai + label {
+  font-weight: bold;
+  color: #000;
+}
+
+/* Responsif untuk layar kecil */
+@media screen and (max-width: 768px) {
+  .konsentrasi-section {
+    gap: 15px; /* Mengurangi jarak pada perangkat kecil */
+    flex-direction: column; /* Menyusun elemen secara vertikal */
+  }
+
+  .kuota-section {
+    flex-direction: column; /* Agar label dan input tidak terlalu lebar */
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  #kuota_ai {
+    width: 100%; /* Input mengambil penuh layar */
+  }
+}
+.output-box {
+  width: 100%;           /* Lebar 100% dari container */
+  height: 400px;         /* Tinggi 400px (atau sesuaikan sesuai kebutuhan) */
+  overflow-y: scroll;    /* Menambahkan scrollbar jika kontennya melebihi batas */
+  border: 1px solid #ccc; /* Tambahkan border untuk memperjelas area */
+  padding: 10px;         /* Memberi jarak antara konten dan border */
+  box-sizing: border-box; /* Memastikan padding dihitung dalam lebar/tinggi */
+}
+
+/* Styling untuk judul */
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Styling untuk output-box yang berisi hasil */
+.output-box {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #333;
+  white-space: pre-wrap; /* Menjaga format teks agar tetap terjaga, seperti spasi dan baris baru */
+}
+
+/* Styling untuk tabel yang ada di dalam output-box */
+.output-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+/* Styling untuk header tabel */
+.output-box table th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-size: 16px;
+}
+
+/* Styling untuk isi tabel */
+.output-box table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Styling untuk baris tabel yang dihover */
+.output-box table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Styling untuk baris tabel yang ganjil dan genap */
+.output-box table tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+.output-box table tr:nth-child(even) {
+  background-color: #fff;
+}
