@@ -28,13 +28,13 @@ def download_result():
 @app.route('/process', methods=['POST'])
 def process():
     try:
-        # File upload
+        # Menangkap file yang di upload di Website
         file = request.files['file']
         kuota_ai = int(request.form['kuota_ai'])
         
         konsentrasi = int(request.form['konsentrasi'])
 
-        # Menangkap prioritas dari form HTML
+        # Menangkap prioritas mata kuliah dari form HTML
         prioritas_matkul = [
             (request.form.get('nama_matkul_1'), int(request.form.get('prioritas_1'))),
             (request.form.get('nama_matkul_2'), int(request.form.get('prioritas_2'))),
@@ -46,7 +46,7 @@ def process():
             (request.form.get('nama_matkul_8'), int(request.form.get('prioritas_8'))),
             (request.form.get('nama_matkul_9'), int(request.form.get('prioritas_9'))),]
         
-        # Urutkan berdasarkan prioritas (elemen kedua dalam tuple)
+        # Urutkan berdasarkan prioritas angka yang ditetapkan
         prioritas_matkul.sort(key=lambda x: x[1])
 
         # Ambil hanya nama mata kuliah setelah diurutkan
@@ -59,10 +59,10 @@ def process():
             (request.form.get('nama_pendukung_2'), int(request.form.get('prioritaspendukung_2'))),
             (request.form.get('nama_pendukung_3'), int(request.form.get('prioritaspendukung_3'))),]
         
-        # Urutkan berdasarkan prioritas (elemen kedua dalam tuple)
+        # Urutkan berdasarkan prioritas angka yang ditetapkan
         prioritas_pendukung.sort(key=lambda x: x[1])
 
-        # Ambil hanya nama mata kuliah setelah diurutkan
+        # Ambil hanya nama nilai pendukung setelah diurutkan
         prioritas_pendukung = [nama for nama, prioritas in prioritas_pendukung]
         
         print(f"Prioritas Nilai Pendukung: {prioritas_pendukung}")
@@ -74,7 +74,7 @@ def process():
         # Load dataset
         data = pd.read_excel(filepath)
 
-        # Proses data (tetap menggunakan logika yang Anda miliki di atas)
+        # Proses data
         data = data[['Nama Lengkap', 'Karya', 'SMK/SMA/MA', 'Hobi', 'Nilai Mata Kuliah Struktur Data', 
                      'Nilai Mata Kuliah Algoritma dan pemrograman dasar', 'Nilai Mata Kuliah Pemrograman Lanjut', 
                      'Nilai Mata Kuliah Statistik dan Probabilitas', 'Nilai Mata Kuliah Keamanan Informasi', 
@@ -87,10 +87,10 @@ def process():
             'A': 10, 'A-': 9, 'B+': 8, 'B': 7, 'B-': 6, 'C+': 5, 'C': 4, 'C- hingga E': 2, 'Belum diprogramkan': 1
         }
 
-        # Fungsi untuk mengkonversi nilai mata kuliah, Hobi, Karya, SMK/SMA/MA, dan Pilihan Konsentrasi
+        # Fungsi untuk mengkonversi nilai mata kuliah
         def konversi(row):
-            # Kolom nilai mata kuliah berada pada indeks 4 hingga 12 (kolom 10-18 adalah indeks ke 4 sampai 12)
-            for kolom in data.columns[4:13]:  # Menyesuaikan dengan kolom 10 sampai 18
+            # Kolom nilai mata kuliah berada pada indeks 4 hingga 12
+            for kolom in data.columns[4:13]:
                 if row[kolom] in konversi_nilai:
                     row[kolom] = konversi_nilai[row[kolom]]
                     
@@ -99,7 +99,7 @@ def process():
             'Menganalisis data'
             ]
             
-            # Hitung jumlah kata kunci yang ada di kolom 'Karya'
+            # Hitung jumlah kata kunci yang ada di kolom 'Hobi'
             matches = sum(1 for keyword in hobi_keywords if keyword in str(row['Hobi']))
 
             # Tentukan nilai berdasarkan jumlah kecocokan
@@ -155,9 +155,10 @@ def process():
         # Terapkan konversi nilai ke seluruh data
         data = data.apply(konversi, axis=1)
 
-        # Menyaring data untuk hanya yang memiliki nilai "1" pada kolom "Pilihan Konsentrasi 1"
+        # Menyaring data untuk hanya data yang sesuai dengan variabel konsentrasi pada kolom "Pilihan Konsentrasi 1"
         data = data[data['Pilihan Konsentrasi 1'] == konsentrasi]
         
+        # Membandingkan nilai kuota, jika kuota lebih banyak dari data. Maka data akan langsung ditampilkan tanpa dilakukan perhitungan bobot
         if kuota_ai >= len(data):
             # Semua data akan diambil karena kuota lebih besar atau sama dengan jumlah data
             data_filtered = data
@@ -171,13 +172,14 @@ def process():
                 classes="table table-striped table-bordered", index=True
             )
 
-            # Kembalikan halaman dengan tabel HTML dan link unduhan
+            # Kembalikan halaman dengan tabel HTML dan link download
             return render_template(
                 "index.html",
                 result=result_html,
                 file_url=url_for("download_result")
             )
 
+        # Melakukan perbandingan berpasangan untuk mendapatkan bobot dari metode Analytical Hierarchy Process (AHP)
         # Matriks perbandingan berpasangan untuk sub-kriteria Nilai Mata Kuliah
         mata_kuliah_matrix = np.array([[1, 3, 5, 7, 9, 9, 9, 9, 9], 
                                     [1/3, 1, 3, 5, 7, 7, 7, 7, 7],
@@ -214,14 +216,15 @@ def process():
         bobot_pendukung = calculate_weights(pendukung_matrix)
         print(f"Bobot Sub-Kriteria Nilai Pendukung: {bobot_pendukung}")
         
+        # Debugging
         print(f"Data Kolom: {data.columns}")
 
-        
         data_matkul = data[prioritas_matkul]
         
+        # Debugging
         print(f"Test: {data_matkul}")
 
-        # Hitung skor akhir berdasarkan bobot dan nilai masing-masing kolom
+        # Memasukkan rumus Weighted Product (WP) dengan pembobotan dari Analytical Hierarchy Process (AHP)
         nilai_mata_kuliah_skore = (data_matkul.iloc[:, 0] ** bobot_mata_kuliah[0]) * \
                                     (data_matkul.iloc[:, 1] ** bobot_mata_kuliah[1]) * \
                                     (data_matkul.iloc[:, 2] ** bobot_mata_kuliah[2]) * \
@@ -232,26 +235,35 @@ def process():
                                     (data_matkul.iloc[:, 7] ** bobot_mata_kuliah[7]) * \
                                     (data_matkul.iloc[:, 8] ** bobot_mata_kuliah[8])
 
+        # Debugging
         print(f"Skor Akhir Mata Kuliah: {nilai_mata_kuliah_skore}")
         
         data_pendukung = data[prioritas_pendukung]
         
+        # Debugging
         print(f"Data Setelah Normalisasi: {data_pendukung}")
-                                    
+        
+        # Memasukkan rumus Weighted Product (WP) dengan pembobotan dari Analytical Hierarchy Process (AHP)
         skor_pendukung = (data_pendukung.iloc[:, 0] ** bobot_pendukung[0]) * \
                             (data_pendukung.iloc[:, 1] ** bobot_pendukung[1]) * \
                             (data_pendukung.iloc[:, 2] ** bobot_pendukung[2])
-                            
+        
+        # Debugging  
         print(f"Normalisasi Pendukung: {skor_pendukung}")
         
+        # Menjumlahkan nilai mata kuliah dan nilai pendukung
         nilai = nilai_mata_kuliah_skore + skor_pendukung
         
+        # Menghitung jumlah data keseluruhan dari nilai
         sum_nilai = np.sum(nilai)
         
+        # Debugging
         print(sum_nilai)
         
+        # Melakukan normalisasi agar nilai tidak terlalu besar
         hasil = nilai/sum_nilai
         
+        # Debugging
         print(f"Hasil: {hasil}")
 
         # Tambahkan total skor ke dalam DataFrame
@@ -264,13 +276,14 @@ def process():
 
         # Simpan hasil ke file Excel
         result_filepath = os.path.join(RESULT_FOLDER, 'Hasil_Seleksi_Konsentrasi.xlsx')
-        data_filtered.to_excel(result_filepath, index=True)
+        data_filtered.to_excel(result_filepath, index=False)
 
         # Konversi data ke tabel HTML
         result_html = data_filtered[['Nama Lengkap', 'Total Skor', 'Pilihan Konsentrasi 1']].to_html(classes="table table-striped table-bordered", index=True)
         
         result_file_path = "path/to/result.xlsx"
 
+        # Mengembalikan data hasil proses ke index.html agar dapat di download
         print(result_html)  # Cek isi variabel result
         return render_template(
         "index.html",
